@@ -92,7 +92,115 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+
+BABEL_DEFAULT_LOCALE = "ru"
+
+
+
+
+
+HTML_SANITIZATION = False
+CONTENT_SECURITY_POLICY_WARNING = False
+TALISMAN_ENABLED = False
+
+ENABLE_TEMPLATE_REMOVE_FILTERS = True
+
+HTML_SANITIZATION_SCHEMA_EXTENSIONS = {
+  "attributes": {
+    "*": ["style","className"],
+  },
+  "tagNames": ["style"],
+}
+
+
+
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": True,
+    "DASHBOARD_CROSS_FILTERS": True,
+    "DASHBOARD_RBAC": True,
+    "GENERIC_CHART_AXES": True,
+    "THUMBNAILS": True,
+    "THUMBNAILS_SQLA_LISTENERS": True,
+    "LISTVIEWS_DEFAULT_CARD_VIEW": True,
+    "ENABLE_TEMPLATE_PROCESSING": True,
+    "ENABLE_TEMPLATE_REMOVE_FILTERS": True,
+    "DASHBOARD_CACHE": True,
+    "UX_BETA": True,
+    "TAGGING_SYSTEM": True,
+    #"GLOBAL_ASYNC_QUERIES": True,
+    "DASHBOARD_NATIVE_FILTERS_SET": True,
+    "DASHBOARD_FILTERS_EXPERIMENTAL": True,
+    "RLS_IN_SQLLAB": True,
+    "DRILL_TO_DETAIL": True,
+    "ALLOW_ADHOC_SUBQUERY": True,
+    "HORIZONTAL_FILTER_BAR": True,
+    "RLS_FORM_QUERY_REL_FIELDS": True,
+    "DASHBOARD_EDIT_CHART_IN_NEW_TAB": True,
+    "DRILL_BY": True,
+    "CACHE_QUERY_BY_USER": True,
+}
+
+
+D3_FORMAT = {
+    "decimal": ",",           # - decimal place string (e.g., ".").
+    "thousands": "\u00a0",         # - group separator string (e.g., ",").
+    "grouping": [3],          # - array of group sizes (e.g., [3]), cycled as needed.
+    "currency": ["", "\u00a0\u20b8"]     # - currency prefix/suffix strings (e.g., ["$", ""])
+}
+
+D3_TIME_FORMAT = {
+    'dateTime': '%A, %e %B %Y г. %X',
+    'date': '%d.%m.%Y',
+    'time': '%H:%M:%S',
+    'periods': ['AM', 'PM'],
+    'days': [
+        'воскресенье',
+        'понедельник',
+        'вторник',
+        'среда',
+        'четверг',
+        'пятница',
+        'суббота',
+    ],
+    'shortDays': ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'],
+    'months': [
+        'январь',
+        'февраль',
+        'март',
+        'апрель',
+        'май',
+        'июнь',
+        'июль',
+        'август',
+        'сентябрь',
+        'октябрь',
+        'ноябрь',
+        'декабрь',
+    ],
+    'shortMonths': [
+        'янв',
+        'фев',
+        'мар',
+        'апр',
+        'май',
+        'июн',
+        'июл',
+        'авг',
+        'сен',
+        'окт',
+        'ноя',
+        'дек',
+    ]
+}
+
+
+
+CURRENCIES = ["USD", "EUR", "GBP", "INR", "MXN", "JPY", "CNY","KZT"]
+
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/
 # The base URL for the email report hyperlinks.
