@@ -230,7 +230,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         #
         appbuilder.add_link(
             "Home",
-            label=__("Home"),
+            label=__("Главная"),
             href="/superset/welcome/",
             cond=lambda: bool(appbuilder.app.config["LOGO_TARGET_PATH"]),
         )
@@ -246,7 +246,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_view(
             DashboardModelView,
             "Dashboards",
-            label=__("Dashboards"),
+            label=__("Отчеты"),
             icon="fa-dashboard",
             category="",
             category_icon="",
@@ -254,7 +254,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_view(
             SliceModelView,
             "Charts",
-            label=__("Charts"),
+            label=__("Графики"),
             icon="fa-bar-chart",
             category="",
             category_icon="",
@@ -262,7 +262,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
 
         appbuilder.add_link(
             "Datasets",
-            label=__("Datasets"),
+            label=__("Датасеты"),
             href="/tablemodelview/list/",
             icon="fa-table",
             category="",

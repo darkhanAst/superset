@@ -31,6 +31,8 @@ interface CurrencyFormatter {
   (value: number | null | undefined): string;
 }
 
+export const tengeSymbol = '₸';
+
 export const getCurrencySymbol = (currency: Partial<Currency>) =>
   new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -72,6 +74,11 @@ class CurrencyFormatter extends ExtensibleFunction {
     if (this.currency.symbolPosition === 'prefix') {
       return `${getCurrencySymbol(this.currency)} ${formattedValue}`;
     }
+
+    if (getCurrencySymbol(this.currency) === 'KZT') {
+      return `${formattedValue} ${tengeSymbol}`;
+    }
+
     return `${formattedValue} ${getCurrencySymbol(this.currency)}`;
   }
 }

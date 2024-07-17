@@ -22,6 +22,10 @@
 #
 import logging
 import os
+from superset.superset_typing import CacheConfig
+from superset.tasks.types import ExecutorType
+from typing import  Callable
+from dateutil import tz
 
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
@@ -61,6 +65,17 @@ REDIS_RESULTS_DB = os.getenv("REDIS_RESULTS_DB", "1")
 
 RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
 
+# Visual Customizations
+APP_NAME = "Платформа аналитики ЦРЦЭ"
+APP_ICON = "/static/assets/images/logo.png"
+#APP_ICON_WIDTH = 100
+# Path for routing when APP_ICON image is clicked
+LOGO_TARGET_PATH = '/dashboard/list/' # Forwards to /superset/welcome/home
+LOGO_TOOLTIP = "Центр развития цифровой экономики" # Text displayed when hovering.
+LOGO_RIGHT_TEXT: Callable[[], str] | str = "Аналитическая Платформа"
+FAVICONS = [{"href": "/static/assets/images/logo.png"}]
+
+
 CACHE_CONFIG = {
     "CACHE_TYPE": "RedisCache",
     "CACHE_DEFAULT_TIMEOUT": 300,
@@ -71,10 +86,14 @@ CACHE_CONFIG = {
 }
 DATA_CACHE_CONFIG = CACHE_CONFIG
 
+DRUID_TZ = tz.gettz('Asia/Yekaterinburg')
 
 class CeleryConfig:
     broker_url = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
-    imports = ("superset.sql_lab",)
+    imports = (
+        "superset.sql_lab",
+        'superset.tasks.thumbnails',
+    )
     result_backend = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_RESULTS_DB}"
     worker_prefetch_multiplier = 1
     task_acks_late = False
@@ -94,9 +113,6 @@ CELERY_CONFIG = CeleryConfig
 
 
 BABEL_DEFAULT_LOCALE = "ru"
-
-
-
 
 
 HTML_SANITIZATION = False
@@ -138,6 +154,16 @@ FEATURE_FLAGS = {
     "DASHBOARD_EDIT_CHART_IN_NEW_TAB": True,
     "DRILL_BY": True,
     "CACHE_QUERY_BY_USER": True,
+}
+
+THUMBNAIL_SELENIUM_USER = "admin"
+THUMBNAIL_EXECUTE_AS = [ExecutorType.SELENIUM]
+
+THUMBNAIL_CACHE_CONFIG: CacheConfig = {
+    'CACHE_TYPE': 'redis',
+    'CACHE_DEFAULT_TIMEOUT': 24*60*60*7,
+    'CACHE_KEY_PREFIX': 'thumbnail_',
+    'CACHE_REDIS_URL': 'redis://redis:6379/1'
 }
 
 

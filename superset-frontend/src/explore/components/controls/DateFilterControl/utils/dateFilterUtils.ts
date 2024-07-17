@@ -31,21 +31,21 @@ import { FrameType } from '../types';
 
 export const guessFrame = (timeRange: string): FrameType => {
   if (COMMON_RANGE_VALUES_SET.has(timeRange)) {
-    return 'Common';
+    return 'Custom';
   }
   if (CALENDAR_RANGE_VALUES_SET.has(timeRange)) {
-    return 'Calendar';
+    return 'Custom';
   }
   if (CURRENT_RANGE_VALUES_SET.has(timeRange)) {
-    return 'Current';
+    return 'Custom';
   }
   if (timeRange === NO_TIME_RANGE) {
-    return 'No filter';
+    return 'Custom';
   }
   if (customTimeRangeDecode(timeRange).matchedFlag) {
     return 'Custom';
   }
-  return 'Advanced';
+  return 'Custom';
 };
 
 export function useDefaultTimeFilter() {

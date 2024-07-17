@@ -88,4 +88,26 @@ Handlebars.registerHelper('stringify', (obj: any, obj2: any) => {
   return isPlainObject(obj) ? JSON.stringify(obj) : String(obj);
 });
 
+Handlebars.registerHelper('numberFormat', function (value: any, options: any) {
+  // Helper parameters
+  const dl = options.hash.decimalLength || 2;
+  const ts = options.hash.thousandsSep || ' ';
+  const ds = options.hash.decimalSep || ',';
+
+  // Parse to float
+  const val = parseFloat(value);
+
+  // The regex
+  const re = `\\d(?=(\\d{3})+${dl > 0 ? '\\D' : '$'})`;
+
+  // Formats the number with the decimals
+  const num = val.toFixed(Math.max(0, ~~dl));
+
+  // Returns the formatted number
+  return (ds ? num.replace('.', ds) : num).replace(
+    new RegExp(re, 'g'),
+    `$&${ts}`,
+  );
+});
+
 Helpers.registerHelpers(Handlebars);

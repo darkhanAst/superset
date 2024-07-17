@@ -21,6 +21,8 @@
 # create you own docker environment file (docker/.env) with your own
 # unique random secure passwords and SECRET_KEY.
 # -----------------------------------------------------------------------
+x-superset-image: &superset-image apache/d-superset:1.0.1
+
 x-superset-depends-on: &superset-depends-on
   - db
   - redis
@@ -29,11 +31,6 @@ x-superset-volumes:
   - ./docker:/app/docker
   - superset_home:/app/superset_home
 
-x-common-build: &common-build
-  context: .
-  target: dev
-  cache_from:
-    - apache/superset-cache:3.10-slim-bookworm
 
 version: "4.0"
 services:
@@ -63,8 +60,7 @@ services:
         required: true
       - path: docker/.env-local # optional override
         required: false
-    build:
-      <<: *common-build
+    image: *superset-image
     container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app-gunicorn"]
     user: "root"
@@ -76,8 +72,7 @@ services:
 
   superset-init:
     container_name: superset_init
-    build:
-      <<: *common-build
+    image: *superset-image
     command: ["/app/docker/docker-init.sh"]
     env_file:
       - path: docker/.env # default
@@ -91,8 +86,7 @@ services:
       disable: true
 
   superset-worker:
-    build:
-      <<: *common-build
+    image: *superset-image
     container_name: superset_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file:
@@ -112,8 +106,7 @@ services:
         ]
 
   superset-worker-beat:
-    build:
-      <<: *common-build
+    image: *superset-image
     container_name: superset_worker_beat
     command: ["/app/docker/docker-bootstrap.sh", "beat"]
     env_file:

@@ -30,9 +30,9 @@ import Select from 'src/components/Select/Select';
 import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls';
 import {
   SINCE_GRAIN_OPTIONS,
-  SINCE_MODE_OPTIONS,
+  // SINCE_MODE_OPTIONS,
   UNTIL_GRAIN_OPTIONS,
-  UNTIL_MODE_OPTIONS,
+  // UNTIL_MODE_OPTIONS,
   MOMENT_FORMAT,
   MIDNIGHT,
   customTimeRangeEncode,
@@ -117,6 +117,7 @@ export function CustomFrame(props: FrameComponentProps) {
   // This also protects us from the case where state is populated with a locale that antd locales does not recognize
   const datePickerLocale =
     locales[LOCALE_MAPPING[localFromFlaskBabel]]?.DatePicker;
+  const dateFormnat = 'DD.MM.YYYY';
 
   return (
     <div data-test="custom-frame">
@@ -130,22 +131,22 @@ export function CustomFrame(props: FrameComponentProps) {
               placement="right"
             />
           </div>
-          <Select
+          {/* <Select
             ariaLabel={t('START (INCLUSIVE)')}
             options={SINCE_MODE_OPTIONS}
             value={sinceMode}
             onChange={(value: string) => onChange('sinceMode', value)}
-          />
+          /> */}
           {sinceMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
                 defaultValue={dttmToMoment(sinceDatetime)}
                 onChange={(datetime: Moment) =>
                   onChange('sinceDatetime', datetime.format(MOMENT_FORMAT))
                 }
                 allowClear={false}
                 locale={datePickerLocale}
+                format={dateFormnat}
               />
             </Row>
           )}
@@ -183,22 +184,22 @@ export function CustomFrame(props: FrameComponentProps) {
               placement="right"
             />
           </div>
-          <Select
+          {/* <Select
             ariaLabel={t('END (EXCLUSIVE)')}
             options={UNTIL_MODE_OPTIONS}
             value={untilMode}
             onChange={(value: string) => onChange('untilMode', value)}
-          />
+          /> */}
           {untilMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
                 defaultValue={dttmToMoment(untilDatetime)}
                 onChange={(datetime: Moment) =>
                   onChange('untilDatetime', datetime.format(MOMENT_FORMAT))
                 }
                 allowClear={false}
                 locale={datePickerLocale}
+                format={dateFormnat}
               />
             </Row>
           )}
@@ -249,7 +250,6 @@ export function CustomFrame(props: FrameComponentProps) {
             {anchorMode !== 'now' && (
               <Col>
                 <DatePicker
-                  showTime
                   defaultValue={dttmToMoment(anchorValue)}
                   onChange={(datetime: Moment) =>
                     onChange('anchorValue', datetime.format(MOMENT_FORMAT))
@@ -257,6 +257,7 @@ export function CustomFrame(props: FrameComponentProps) {
                   allowClear={false}
                   className="control-anchor-to-datetime"
                   locale={datePickerLocale}
+                  format={dateFormnat}
                 />
               </Col>
             )}

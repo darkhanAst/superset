@@ -40,12 +40,12 @@ const SPECIFIC_MODE = ['specific', 'today', 'now'];
 
 export const dttmToMoment = (dttm: string): Moment => {
   if (dttm === 'now') {
-    return moment().utc().startOf('second');
+    return moment().utc().startOf('day');
   }
   if (dttm === 'today') {
     return moment().utc().startOf('day');
   }
-  return moment(dttm);
+  return moment(dttm).utc().startOf('day');
 };
 
 export const dttmToString = (dttm: string): string =>
@@ -84,10 +84,12 @@ export const customTimeRangeEncode = (customRange: CustomRangeType): string => {
   if (sinceMode === 'relative' && SPECIFIC_MODE.includes(untilMode)) {
     const until =
       untilMode === 'specific' ? dttmToString(untilDatetime) : untilMode;
+    /*
     const since = `DATEADD(DATETIME("${until}"), ${-Math.abs(
       sinceGrainValue,
     )}, ${sinceGrain})`;
-    return `${since} : ${until}`;
+    */
+    return `${until} : ${until}`;
   }
 
   // relative : relative

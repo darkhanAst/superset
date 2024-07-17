@@ -32,7 +32,7 @@ import ControlHeader from 'src/explore/components/ControlHeader';
 import Modal from 'src/components/Modal';
 import { Divider } from 'src/components';
 import Icons from 'src/components/Icons';
-import Select from 'src/components/Select/Select';
+// import Select from 'src/components/Select/Select';
 import { Tooltip } from 'src/components/Tooltip';
 import { useDebouncedEffect } from 'src/explore/exploreUtils';
 import { SLOW_DEBOUNCE } from 'src/constants';
@@ -42,7 +42,7 @@ import ControlPopover from '../ControlPopover/ControlPopover';
 import { DateFilterControlProps, FrameType } from './types';
 import {
   DateFilterTestKey,
-  FRAME_OPTIONS,
+  // FRAME_OPTIONS,
   guessFrame,
   useDefaultTimeFilter,
 } from './utils';
@@ -55,9 +55,11 @@ import {
 } from './components';
 import { CurrentCalendarFrame } from './components/CurrentCalendarFrame';
 
+/*
 const StyledRangeType = styled(Select)`
   width: 272px;
 `;
+*/
 
 const ContentStyleWrapper = styled.div`
   ${({ theme }) => css`
@@ -274,24 +276,25 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       onOpen();
     }
   };
-
+  console.log(timeRangeValue);
+  /*
   function onChangeFrame(value: FrameType) {
     if (value === NO_TIME_RANGE) {
       setTimeRangeValue(NO_TIME_RANGE);
     }
     setFrame(value);
   }
-
+  */
   const overlayContent = (
     <ContentStyleWrapper>
-      <div className="control-label">{t('RANGE TYPE')}</div>
+      {/* <div className="control-label">{t('RANGE TYPE')}</div>
       <StyledRangeType
         ariaLabel={t('RANGE TYPE')}
         options={FRAME_OPTIONS}
         value={frame}
         onChange={onChangeFrame}
       />
-      {frame !== 'No filter' && <Divider />}
+      {frame !== 'No filter' && <Divider />} */}
       {frame === 'Common' && (
         <CommonFrame value={timeRangeValue} onChange={setTimeRangeValue} />
       )}
@@ -357,7 +360,6 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       <span className="text">{t('Edit time range')}</span>
     </IconWrapper>
   );
-
   const popoverContent = (
     <ControlPopover
       placement="right"
