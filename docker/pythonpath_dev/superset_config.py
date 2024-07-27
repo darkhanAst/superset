@@ -30,6 +30,10 @@ from dateutil import tz
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
 
+from security import CustomSecurityManager
+CUSTOM_SECURITY_MANAGER = CustomSecurityManager
+
+
 logger = logging.getLogger()
 
 DATABASE_DIALECT = os.getenv("DATABASE_DIALECT")
@@ -86,7 +90,7 @@ CACHE_CONFIG = {
 }
 DATA_CACHE_CONFIG = CACHE_CONFIG
 
-DRUID_TZ = tz.gettz('Asia/Yekaterinburg')
+MAPBOX_API_KEY = "pk.eyJ1IjoiaXRhcHBhcmF0IiwiYSI6ImNsMXVhOXJwMTA4YnczY21tczdmNG41c28ifQ.rNjd1zZfhPo0vpcon8kc9w"
 
 class CeleryConfig:
     broker_url = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
@@ -135,9 +139,7 @@ FEATURE_FLAGS = {
     "DASHBOARD_CROSS_FILTERS": True,
     "DASHBOARD_RBAC": True,
     "GENERIC_CHART_AXES": True,
-    "THUMBNAILS": True,
-    "THUMBNAILS_SQLA_LISTENERS": True,
-    "LISTVIEWS_DEFAULT_CARD_VIEW": True,
+    #"LISTVIEWS_DEFAULT_CARD_VIEW": True,
     "ENABLE_TEMPLATE_PROCESSING": True,
     "ENABLE_TEMPLATE_REMOVE_FILTERS": True,
     "DASHBOARD_CACHE": True,
@@ -226,6 +228,14 @@ CURRENCIES = ["USD", "EUR", "GBP", "INR", "MXN", "JPY", "CNY","KZT"]
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+# Hide all users
+def user_filter(query):
+    from sqlalchemy.sql import false
+    return query.filter(false())
+
+EXTRA_RELATED_QUERY_FILTERS = {
+    "user": user_filter,
+}
 
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/
