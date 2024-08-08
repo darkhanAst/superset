@@ -21,7 +21,7 @@
 # create you own docker environment file (docker/.env) with your own
 # unique random secure passwords and SECRET_KEY.
 # -----------------------------------------------------------------------
-x-superset-image: &superset-image apache/d-superset:1.0.2
+x-superset-image: &superset-image apache/d-superset:1.0.3
 
 x-superset-depends-on: &superset-depends-on
   - db

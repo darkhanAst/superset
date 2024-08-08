@@ -45,7 +45,7 @@ export const dttmToMoment = (dttm: string): Moment => {
   if (dttm === 'today') {
     return moment().utc().startOf('day');
   }
-  return moment(dttm).utc().startOf('day');
+  return moment(dttm).startOf('day');
 };
 
 export const dttmToString = (dttm: string): string =>
